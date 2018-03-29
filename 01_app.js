@@ -74,6 +74,16 @@ app.get('/adresse', function (req, res) {
 app.post('/rechercher',  (req, res) => {
 
 })
+
+
+app.get('/profil/:id', (req, res) => {
+	let id = ObjectID(req.params.id)
+	console.log("profil")
+	let cursor = db.collection('adresse').find({"_id":id}).toArray(function(err, resultat){
+ 		res.render('profil.ejs', {adresses: resultat})
+ 	})
+})
+
 ////////////////////////////////////////// Route /ajouter
 app.post('/ajouter', (req, res) => {
 console.log('route /ajouter')	
@@ -126,9 +136,8 @@ app.get('/trier/:cle/:ordre', (req, res) => {
 }) 
 
 
-/////////////////////////////////////////////////////////  Route /peupler
+/////////////////////////////////////////////////////////  Route /vider
 app.get('/vider', (req, res) => {
-
 	let cursor = db.collection('adresse').drop((err, res)=>{
 		if(err) console.error(err)
 			console.log('ok')

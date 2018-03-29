@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>	
+<body>
+	<%- include('composants/head') %>
+	<%- include('composants/menu') %>
+	<%- include('composants/entete') %>
+	<div id="profil">
+		<% adresses.forEach(elm => {%>
+			<table>
+				<tr>
+					<th>Prénom</th>
+					<th>Nom</th>
+					<th>Téléphone</th>
+					<th>Courriel</th>
+				</tr>
+				<tr>
+					<td><%=elm.prenom%></td>
+					<td><%=elm.nom%></td>
+					<td><%=elm.telephone%></td>
+					<td><%=elm.courriel%></td>
+				</tr>
+			</table>
+		<% }) %>
+	</div>
+	<%- include('composants/footer') %>
+</body>
+</html>

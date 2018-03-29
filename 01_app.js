@@ -72,7 +72,19 @@ app.get('/adresse', function (req, res) {
 })
 //////////////////////////////////////////  Route Rechercher
 app.post('/rechercher',  (req, res) => {
-
+	console.log('rechercher')
+	var rechercher = req.body.rechercher;
+	console.log(rechercher)
+	let cursor = db.collection('adresse').find({
+		$or: [
+			{nom:{'$regex' : rechercher + '', '$options' : 'i'}},
+			{prenom:{'$regex' : rechercher + '', '$options' : 'i'}},
+			{telephone:{'$regex' : rechercher + '', '$options' : 'i'}},
+			{courriel:{'$regex' : rechercher + '', '$options' : 'i'}}
+		]
+	}).toArray(function(err, resultat) {
+		res.render('adresse.ejs', {adresses: resultat})
+	})
 })
 
 
@@ -140,8 +152,7 @@ app.get('/trier/:cle/:ordre', (req, res) => {
 app.get('/vider', (req, res) => {
 	let cursor = db.collection('adresse').drop((err, res)=>{
 		if(err) console.error(err)
-			console.log('ok')
-			
+			console.log('/vider')
 		})
 	res.redirect('/adresse')
 })

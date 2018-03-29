@@ -16,10 +16,9 @@
 					<a href='/fr'>FR</a>
 				<%}%>
 			</nav> 
-			<form class='recherche'  action='/adresse' name="recherche" id="recherche">
-			    <input type="text" name="recherche" 
-			    value="<%= (typeof recherche == 'undefined')? '' : recherche %>">
-			    <button><i class="fas fa-search"></i></button>
+			<form action="/rechercher" method="POST" class='recherche' name="recherche" id="recherche">
+				<input type="text" placeholder="Rechercher" name="rechercher" value="<%= (typeof recherche == 'undefined')? '' : recherche %>">
+			    <button type="submit"><i class="fa fa-search"></i></button>
 			</form>
 		</div> <!-- .menu -->
 	</div> <!-- fin barre de menu -->

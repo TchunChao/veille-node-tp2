@@ -18,6 +18,5 @@
 	"TP2": "TP2 - Node.js, Express & MongoDB",
 	"Cours": "Class : Programmation et veille technologique",
 	"Remise": "Submitted : March 23rd 2018",
-	"Description": "Project using Node.js, Express and MongoDB to develop a Web app to manage members.",
-	"Prénom": "Prénom"
+	"Description": "Project using Node.js, Express and MongoDB to develop a Web app to manage members."
 }

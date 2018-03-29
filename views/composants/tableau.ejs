@@ -1,0 +1,144 @@
+<%
+    let objOrdre = {
+        _id : 'asc',
+        nom : 'asc',        
+        prenom : 'asc',
+        telephone : 'asc',
+        courriel : 'asc'
+    }
+    
+    if (typeof cle !== 'undefined'  && cle) {
+        objOrdre[cle] = ordre
+    }
+%>
+
+
+<table class="tableau">
+    <tr>
+        <th><a href="/trier/_id/<%= objOrdre._id %>">_id<i class="fas fa-<%= (objOrdre._id=='asc'?'sort-up': 'sort-down') %>"></i></a></th>
+        <th><a href="/trier/nom/<%= objOrdre.nom %>"><%=__('Nom') %><i class="fas fa-<%= (objOrdre.nom=='asc'?'sort-up': 'sort-down') %>"></i></a></th>
+        <th><a href="/trier/prenom/<%= objOrdre.prenom %>"><%=__('Prenom') %><i class="fas fa-<%= (objOrdre.prenom=='asc'?'sort-up': 'sort-down') %>"></i></a></th>        
+        <th><a href="/trier/telephone/<%= objOrdre.telephone %>"><%=__('Téléphone') %><i class="fas fa-<%= (objOrdre.telephone=='asc'?'sort-up': 'sort-down') %>"></i></a></th>  
+        <th><a href="/trier/courriel/<%= objOrdre.courriel %>"><%=__('Courriel') %><i class="fas fa-<%= (objOrdre.courriel=='asc'?'sort-up': 'sort-down') %>"></i></a></th>
+        <th><a href="#" id="ajouter" class="ajouter"><i class="fas fa-plus"></i></th>
+    </tr>
+
+    <%  for (elm of adresses) {%>
+    <tr>
+        <td><%= elm._id %></td>
+        <td contenteditable='true'><%= elm.nom %></td>
+        <td contenteditable='true'><%= elm.prenom %></td>
+        <td contenteditable='true'><%= elm.telephone %></td>                
+        <td contenteditable='true'><%= elm.courriel %></td>    
+        <td><a class="detruire" href="#"><i class="fas fa-trash-alt" aria-hidden="true"></i></a></td>
+        <td><a class='modifier' href="#"><i class="far fa-save" aria-hidden="true"></i></a></td>
+    </tr>
+    <% } %>
+</table>
+
+<script type="text/javascript">
+    
+    ///////////////////////////////////////////
+    function traiterRequest(e){
+        console.log("xhr.readyState = " + xhr.readyState)
+        console.log("xhr.status = " + xhr.status)
+        if(xhr.readyState == 4 && xhr.status == 200) {
+            console.log('ajax fonctionne')
+            var response = JSON.parse(xhr.responseText);
+            console.log("response._id = " + response._id)
+            console.log(xhr.responseText);
+        }
+    }
+
+    function traiterAjouter(e) {
+        if(xhr.readyState == 4 && xhr.status == 200) {
+            let response = JSON.parse(xhr.responseText);
+            let elmTable = document.getElementsByTagName("table")[0];
+            let elmTr = document.createElement("TR");
+            let elmTd = new Array();
+            for (let i = 0; i < 7; i++) {
+                elmTd[i] = elmTr.appendChild(document.createElement('td'));
+            }
+            elmTd[0].innerHTML = response._id
+            elmTd[5].innerHTML = "<a class='detruire' href='#'><i class='fas fa-trash-alt' aria-hidden='true'></i></a>";
+            elmTd[6].innerHTML = "<a class='modifier' href='#'><i class='far fa-save' aria-hidden='true'></i></a>";
+            elmTable.appendChild(elmTr);
+            for (let i = 0; i < 5; i++) {
+                let temp = document.createAttribute("contenteditable");
+                temp.value = "true";
+                elmTd[i].setAttributeNode(temp);
+            }
+            AppelsAuxEditeurs();
+        }
+    }
+
+    function AppelsAuxEditeurs() {
+        let elmModifier = document.querySelectorAll('.modifier')
+        console.log(elmModifier.length)
+        for (elm of elmModifier) {
+                elm.addEventListener('click', function() {
+                    console.log("okok");
+                    console.log(this.parentElement.parentElement.id)
+                    let elmTr = this.parentElement.parentElement 
+                    let _id = elmTr.querySelector('td:nth-child(1)').innerHTML
+                    let nom = elmTr.querySelector('td:nth-child(2)').innerHTML
+                    let prenom = elmTr.querySelector('td:nth-child(3)').innerHTML
+                    let telephone = elmTr.querySelector('td:nth-child(4)').innerHTML
+                    let courriel = elmTr.querySelector('td:nth-child(5)').innerHTML
+
+                    xhr = new XMLHttpRequest();
+                    xhr.open('POST', "/ajax_modifier", true);
+                        
+                    data = {
+                        "_id" : _id,
+                        "nom" : nom,
+                        "prenom" : prenom,
+                        "telephone" : telephone,
+                        "courriel" : courriel
+                    }
+                        
+                    sData = JSON.stringify(data);
+                    xhr.setRequestHeader('Content-type', 'application/json');
+                    xhr.send(sData);
+                    xhr.addEventListener("readystatechange", traiterRequest, false);
+                })
+        }
+        let elmDetruire = document.querySelectorAll('.detruire')
+        for (elm of elmDetruire) {
+            elm.addEventListener('click', function() {
+                console.log(this.parentElement.parentElement.id)
+                let elmTr = this.parentElement.parentElement 
+                let _id = elmTr.querySelector('td:nth-child(1)').innerHTML
+
+                xhr = new XMLHttpRequest();
+                xhr.open('GET', "/ajax_detruire/" + _id, true);
+                    
+                data = {"_id" : _id,}
+                    
+                sData = JSON.stringify(data);
+                xhr.setRequestHeader('Content-type', 'application/json');
+                xhr.send(sData);
+                xhr.addEventListener("readystatechange", traiterRequest, false);  
+                elmTr.remove() 
+            })
+        }
+    }
+
+    let elmAjouter = document.getElementById('ajouter');
+    elmAjouter.addEventListener('click', function() {
+        xhr = new XMLHttpRequest();
+        xhr.open('POST', "/ajax_ajouter", true);
+
+        data = {}
+
+        sData = JSON.stringify(data);
+        xhr.setRequestHeader('Content-type', 'application/json');
+        xhr.send(sData);
+        xhr.addEventListener("readystatechange", traiterAjouter, false);
+    })
+    
+    AppelsAuxEditeurs();
+
+
+</script>
+

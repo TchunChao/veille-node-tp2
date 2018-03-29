@@ -1,0 +1,19 @@
+{
+	"Accueil": "Accueil",
+	"Vider": "Vider",
+	"Adresse": "Adresse",
+	"Nom": "Nom",
+	"Prénom": "Prénom",
+	"Téléphone": "Téléphone",
+	"Courriel": "Courriel",
+	"Ajouter": "Ajouter",
+	"Modifier": "Modifier",
+	"Titre": "Veille - Projet Node.js",
+	"Sous-Titre": "Tim - Collège de Maisonneuve",
+	"Maisonneuve": "Collège de Maisonneuve",
+	"Node": "Le site officiel de Node.js",
+	"FondationNode": "Fondation Node.js",
+	"FondationLinux": "Fondation Linux",
+	"DownloadMongodb": "Télécharger mongoDB",
+	"Prenom": "Prenom"
+}

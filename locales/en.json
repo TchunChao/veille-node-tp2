@@ -1,0 +1,19 @@
+{
+	"Accueil": "Home",
+	"Vider": "Empty",
+	"Adresse": "Address",
+	"Nom": "Last Name",
+	"Prénom": "First name",
+	"Téléphone": "Phone Number",
+	"Courriel": "Email",
+	"Ajouter": "Add",
+	"Modifier": "Modify",
+	"Titre": "Veille - Node.js Project",
+	"Sous-Titre": "Tim - Maisonneuve College",
+	"Maisonneuve": "Maisonneuve College",
+	"Node": "Node.js Official Website",
+	"FondationNode": "Node.js Foundation",
+	"FondationLinux": "Linux Foundation",
+	"DownloadMongodb": "Download mongoDB",
+	"Prenom": "Prenom"
+}
